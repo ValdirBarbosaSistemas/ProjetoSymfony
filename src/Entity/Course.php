@@ -2,24 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\CourseRepository;
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CourseRepository; //Importando o repository da classe
+use Doctrine\ORM\Mapping as ORM; //Importando a ORM Doctrine
 
-#[ORM\Entity(repositoryClass: CourseRepository::class)]
+//OBS: Muitas das características são bem parecidas com o JPA do Java
+#[ORM\Entity(repositoryClass: CourseRepository::class)] //Aqui diz a entidade que vai ser baseada no banco de dados
 class Course
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Id] //Chave primária da tabela
+    #[ORM\GeneratedValue] //Auto incremento
+    #[ORM\Column(type: 'integer')] //Tipo do coluna da tabela
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255)] //Tipo string e tamanho de 255
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $description;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable')] //Tipo Date
     private $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -28,7 +29,8 @@ class Course
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
-    public function getId(): ?int
+    //Getters e Setters da classe
+    public function getId(): ?int //Retorna um inteiro ou NULL
     {
         return $this->id;
     }
@@ -38,7 +40,7 @@ class Course
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): self //Geralmente retorno de SET é void, porém como consta SELF é "Retornar ele mesmo"
     {
         $this->name = $name;
 
