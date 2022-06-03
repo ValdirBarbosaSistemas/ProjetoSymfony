@@ -22,7 +22,7 @@ class CourseController extends AbstractController
          * chamar a classe "ManagerEntity".
          */
         $entityManager = $doctrine->getManager(); //Atribuindo à variável entityManager a variável doctrine declarada no parâmetro
-        $course = $entityManager->getRepository(Course::class)->findAll();//Chamando o findAll pelo repository
+        $course = $entityManager->getRepository(Course::class)->findAll(); //Chamando o findAll pelo repository
 
         return $this->json([ //Retorno no Json
             'data' => $course
@@ -39,7 +39,7 @@ class CourseController extends AbstractController
      */
 
     #[Route("/new", name: "new_course", methods: ["POST"])]
-    public function create(Request $request, ManagerRegistry $doctrine)
+    public function create(Request $request, ManagerRegistry $doctrine): JsonResponse
     {
         /**
          * Como vemos no código acima, quando se trabalha com o POST, é OBRIGATÓRIO
@@ -76,7 +76,7 @@ class CourseController extends AbstractController
     }
 
     #[Route("/{courseId}", name: "update_Course", methods: ["PUT", "PATCH"])]
-    public function update($courseId, Request $request, ManagerRegistry $doctrine)
+    public function update($courseId, Request $request, ManagerRegistry $doctrine): JsonResponse
     {
         $data = $request->request->all();
         $course = $doctrine->getManager()->getRepository(Course::class)->find($courseId); //Usando o doctrine sem declarar em uma variável
@@ -84,13 +84,17 @@ class CourseController extends AbstractController
         $course->setName($data['name']);
         $course->setDescription($data['description']);
         $course->setSlug($data['slug']);
-        $course->setUpdatedAt(new \DateTime('now', new \DateTimeZone('Joao Pessoa/Paraiba')));
+        $course->setUpdatedAt(new DateTime('now', new DateTimeZone('Joao Pessoa/Paraiba')));
 
         $doctrine->getManager()->flush();
+
+        return $this->json([
+            'data' => 'Curso atualizado com sucesso!'
+        ]);
     }
 
     #[Route("/{courseId}", name: "delete_course", methods: ["DELETE"])]
-    public function delete($courseId, ManagerRegistry $doctrine)
+    public function delete($courseId, ManagerRegistry $doctrine): JsonResponse
     {
         $entityManger = $doctrine->getManager();
 
