@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeZone;
 
 #[Route('/course', name: 'app_course')]
@@ -56,8 +57,8 @@ class CourseController extends AbstractController
         $course->setName($data['name']);
         $course->setDescription($data['description']);
         $course->setSlug($data['slug']);
-        $course->setCreatedAt(new DateTime('now', new DateTimeZone('Joao Pessoa/Paraiba')));
-        $course->setUpdatedAt(new DateTime('now', new DateTimeZone('Joao Pessoa/Paraiba')));
+        $course->setCreatedAt(new DateTimeImmutable('now', new DateTimeZone('Joao Pessoa/Paraiba'))); //DateTimeZone::listIdentifiers() VER LISTA DE FUSOS HORÁRIOS SUPORTADOS
+        $course->setUpdatedAt(new DateTimeImmutable('now', new DateTimeZone('Joao Pessoa/Paraiba'))); //print_r(DateTimeZone::listIdentifiers());
 
         $entityManager->persist($course); //Persistindo as informações no banco
         $entityManager->flush(); //Enviando as informações
